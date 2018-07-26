@@ -1,4 +1,4 @@
-# Neo4jVisualization
+# 케이셰프 (KChef) - in a process of developing
 
 ## Quick Start
 ### 1. Basic Setup
@@ -10,7 +10,6 @@
 ### 2. Neo4j
 * Start Neo4j ([Download & Install](http://neo4j.com/download)) locally and open the [Neo4j Browser](http://localhost:7474).
 * Default ID is 'neo4j' and you need to set password as 'admin'.
-* Download the Movies dataset with `:play movies`, click the 'CREATE' statement, and hit the triangular "Run" button.
 
 ### 3. MariaDB
 
