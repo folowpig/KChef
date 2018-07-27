@@ -91,7 +91,7 @@
     <% var long = []; %>
     <% var title = []; %>
       <% restaurants.forEach(function(restaurant){%>
-        <div class="col-sm-3">
+        <div class="col-sm-3" hidden="true" id="<%= x %>">
           <div class="panel panel-primary" onclick="center('<%= restaurant.latitude %>','<%= restaurant.longitude %>')">
             <div class="panel-heading" align="center">
               <%= restaurant.name %>
@@ -121,6 +121,7 @@
     <p>Copyright &copy 2018 Edward Kim. All rights reserved.</p>
   </footer>
   
+  <!-- Naver Map API related code-->
   <script type="text/javascript">
     var markers = [], infoWindows = [];
     
@@ -179,6 +180,47 @@
 
     for (var i=0, ii=markers.length; i<ii; i++) {
         naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+    }
+    
+    //Hide markers that are not inside the map bounds
+    naver.maps.Event.addListener(map, 'idle', function() {
+      updateMarkers(map, markers);
+    });
+
+    function updateMarkers(map, markers) {
+      var mapBounds = map.getBounds();
+      var marker, position;
+
+      for (var i = 0; i < markers.length; i++) {
+          marker = markers[i]
+          position = marker.getPosition();
+
+          if (mapBounds.hasLatLng(position)) {
+            showMarker(map, marker);
+            showTabs(i);
+          } else {
+            hideMarker(map, marker);
+            hideTabs(i);
+          }
+      }
+    }
+
+    function showMarker(map, marker) {
+      if (marker.getMap()) return;
+      marker.setMap(map);
+    }
+
+    function hideMarker(map, marker) {
+      if (!marker.getMap()) return;
+      marker.setMap(null);
+    }
+  </script>
+  <script>
+    function hideTabs(x) {
+      document.getElementById(x).hidden = true;
+    }
+    function showTabs(x) {
+      document.getElementById(x).hidden = false;
     }
   </script>
 </body>
